@@ -1,0 +1,85 @@
+{
+	"db":
+	{
+		"adapter": "mysql",
+		"host": "",
+		"username": "",
+		"password": "",
+		"database": ""
+	},
+	"dbs": {},
+	"apis": {},
+	"langs":
+	[
+		"es-es",
+		"en-us",
+		"pt-br"
+	],
+	"app":
+	{
+		"site_name": "ManyThings",
+		"codename": "mt",
+		"email": "info@manythings.pro",
+		"session_timeout": "3600",
+		"online_timeout": "300",
+		"encpass": "hash",
+		"secret": "",
+		"dompath": "",
+		"domrelpath": "",
+		"online": false,
+		"debug": true,
+		"admin_log": false
+	},
+	"date":
+	{
+		"timezone": "Europe/Madrid",
+		"locale": "en_EN.UTF-8",
+		"format_date": "m/d/Y",
+		"format_time": "h:ia",
+		"format_long": "D M d Y | h:ia"
+	},
+	"number":
+	{
+        "decimals": 2,
+        "dec_point": ",",
+        "thou_sep": "."
+    },
+	"currency":
+	{
+        "symbol": "€",
+        "format": "%s%v"
+    },
+    "s3":
+	{
+		"url": "",
+		"bucket": "",
+		"secret": "",
+		"key": "",
+		"region": ""
+	},
+	"resque":
+	{
+		"server": "",
+		"database": ""
+	},
+	"bewe":
+	{
+		"api": "",
+		"apiland": ""
+	},
+	"sendgrid":
+	{
+		"apikey": ""
+	},
+    "pipedrive":
+    {
+        "token": ""
+    },
+    "blog":
+    {
+        "url": "",
+        "pp": "",
+        "pg": "",
+        "pr": ""
+    }
+}

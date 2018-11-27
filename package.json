@@ -1,0 +1,31 @@
+{
+  "name": "Bewe",
+  "version": "1.0.0",
+  "repository": {},
+  "author": "Bewe",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "gulp-sass": "^3.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-sort": "^2.0.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-clean-css": "^3.7.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-rev": "^8.0.0"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.9",
+    "bootstrap": "^4.0.0",
+    "font-awesome": "^4.7.0",
+    "js-cookie": "^2.2.0",
+    "magnific-popup": "^1.1.0",
+    "clipboard": "^1.7.1"
+  },
+  "scripts": {
+    "build": "gulp",
+    "dev": "gulp watch"
+  }
+}

@@ -1,2 +1,2 @@
-# manythings
+# ManyThings
 ManyThings framework
