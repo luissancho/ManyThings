@@ -61,25 +61,5 @@
 	{
 		"server": "",
 		"database": ""
-	},
-	"bewe":
-	{
-		"api": "",
-		"apiland": ""
-	},
-	"sendgrid":
-	{
-		"apikey": ""
-	},
-    "pipedrive":
-    {
-        "token": ""
-    },
-    "blog":
-    {
-        "url": "",
-        "pp": "",
-        "pg": "",
-        "pr": ""
-    }
+	}
 }

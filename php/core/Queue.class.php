@@ -26,6 +26,32 @@ class Queue
         return $this;
     }
 
+    public function summary()
+    {
+        $queues = [];
+
+        foreach ($this->queues() as $queue) {
+            $queues[$queue] = $this->size($queue);
+        }
+
+        echo Utils::arrayToText($queues, '', false);
+    }
+
+    public function queues()
+    {
+        return Resque::queues();
+    }
+
+    public function size($queue)
+    {
+        return Resque::redis()->llen('queue:' . $queue);
+    }
+
+    public function list($queue, $offset = 0, $limit = 10)
+    {
+        return Resque::redis()->lrange('queue:' . $queue, $offset, $limit);
+    }
+
     public function enqueue($queue, $job, $args = [], $delay = 0)
     {
         $jobClass =
@@ -41,6 +67,13 @@ class Queue
         } else {
             Resque::enqueue($queue, $jobClass, $args);
         }
+
+        return $this;
+    }
+
+    public function dequeue($queue)
+    {
+        Resque::redis()->del('queue:' . $queue);
 
         return $this;
     }
