@@ -217,7 +217,11 @@ class ModelApiDal extends ModelDal
                 return $data[$relation['alias']];
             }
 
-            return $className::get($data[$relation['local_key']]);
+            if ($data[$relation['local_key']]) {
+                return $className::get($data[$relation['local_key']]);
+            }
+
+            return [];
         }
 
         return [];
