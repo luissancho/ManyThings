@@ -55,18 +55,19 @@ ALTER TABLE `admin_roles`
 
 CREATE TABLE `admin_sections` (
   `id` tinyint(3) UNSIGNED NOT NULL,
-  `type` enum('admin','tab','model','controller','dashboard') NOT NULL DEFAULT 'tab',
-  `type_ord` tinyint(3) UNSIGNED NOT NULL,
+  `type` enum('admin','model','controller','dashboard') NOT NULL DEFAULT 'tab',
   `ref` varchar(30) NOT NULL DEFAULT '',
   `class` varchar(30) NOT NULL DEFAULT '',
-  `name` varchar(30) NOT NULL DEFAULT ''
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `tab` varchar(30) NOT NULL DEFAULT '',
+  `ord` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `admin_sections` (`id`, `type`, `type_ord`, `ref`, `class`, `name`) VALUES
-(1, 'admin', 1, 'admins', 'AdminUsers', 'Admins'),
-(2, 'admin', 3, 'roles', 'AdminRoles', 'Roles'),
-(3, 'admin', 4, 'sections', 'AdminSections', 'Sections'),
-(4, 'admin', 2, 'logs', 'AdminLogs', 'Logs');
+INSERT INTO `admin_sections` (`id`, `type`, `ref`, `class`, `name`, `tab`, `ord`) VALUES
+(1, 'admin', 'admins', 'AdminUsers', 'Admins', '', 1),
+(4, 'admin', 'logs', 'AdminLogs', 'Logs', '', 2),
+(2, 'admin', 'roles', 'AdminRoles', 'Roles', '', 3),
+(3, 'admin', 'sections', 'AdminSections', 'Sections', '', 4);
 
 ALTER TABLE `admin_sections`
   ADD PRIMARY KEY (`id`);
