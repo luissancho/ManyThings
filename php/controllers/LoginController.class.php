@@ -3,10 +3,11 @@
 namespace ManyThings\Controllers;
 
 use ManyThings\Core\ArgumentException;
+use ManyThings\Core\Controller;
 use ManyThings\Core\Users;
 use ManyThings\Core\Utils;
 
-class LoginController extends BaseController
+class LoginController extends Controller
 {
     public function loginAction($path = null)
     {
@@ -26,7 +27,11 @@ class LoginController extends BaseController
 
         $this->response->setParam('url', $path);
 
-        $this->response->send('login');
+        if ($this->response->templateExists('login')) {
+            $this->response->send('login');
+        } else {
+            $this->response->send('admin/login');
+        }
     }
 
     public function loginHandlerAction()
@@ -67,7 +72,11 @@ class LoginController extends BaseController
     {
         $this->response->setRobots(false, false);
 
-        $this->response->send('password');
+        if ($this->response->templateExists('password')) {
+            $this->response->send('password');
+        } else {
+            $this->response->send('admin/password');
+        }
     }
 
     public function passwordHandlerAction()
@@ -87,9 +96,8 @@ class LoginController extends BaseController
 
         $auth = $session->createAuth($user->id);
 
-        $emailfrom = $config->app->email_app;
-        $emailData =
-        [
+        $emailfrom = $config->app->email;
+        $emailData = [
             'name' => $user->data['username'],
             'auth' => $auth
         ];

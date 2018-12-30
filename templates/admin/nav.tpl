@@ -1,22 +1,3 @@
-<script type="text/javascript">
-    var username = '{$session.user.username} ({$session.uid})';
-    var dataLayer = window.dataLayer || [];
-    dataLayer.push({
-        'username': username
-    });
-</script>
-{literal}
-<!-- Google Tag Manager -->
-<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P52LPW"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-P52LPW');</script>
-<!-- End Google Tag Manager -->
-{/literal}
-
 <div class="navbar navbar-static-top">
     <div class="navbar-inner">
         <div class="container">
@@ -25,7 +6,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="{$path}/">{$sitename}</a>
+            <a class="brand" href="{$path}/admin/">{$sitename}</a>
             <div id="nav" class="nav-collapse collapse">
                 <ul class="nav">
                     <li class="divider-vertical"></li>
@@ -124,6 +105,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
 {/if}
 
+{if $timezone}
 <div class="pull-right" style="margin: 5px 10px 0 0;">
     <strong>Timezone:</strong> {$timezone}
 </div>
+{/if}

@@ -3,9 +3,10 @@
 namespace ManyThings\Controllers;
 
 use ManyThings\Core\ArgumentException;
+use ManyThings\Core\Controller;
 use ManyThings\Core\Users;
 
-class UserController extends BaseController
+class UserController extends Controller
 {
     public function accountAction()
     {
@@ -27,13 +28,16 @@ class UserController extends BaseController
 
         $this->response->setParam('data', $session->user);
 
-        $this->response->send('user');
+        if ($this->response->templateExists('user')) {
+            $this->response->send('user');
+        } else {
+            $this->response->send('admin/user');
+        }
     }
 
     public function accountHandlerAction()
     {
-        $data =
-        [
+        $data = [
             'username' => '',
             'email' => '',
             'password' => ''
