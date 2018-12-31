@@ -26,7 +26,7 @@ class AdminSectionsDal extends ModelDal
     {
         $sql = 'UPDATE ' . $this->getTableSql() . '
                 SET
-                    t.ord = t.ord + (' . $int . ")";
+                    t.ord = t.ord + (' . $int . ')';
         $sql .= !empty($tab) ? " WHERE t.tab = '" . $this->sqlEscape($tab) . "'" : ' WHERE t.tab IS NULL';
         $sql .= ' AND t.ord >= ' . $from . '
                     AND t.ord < ' . $to;
