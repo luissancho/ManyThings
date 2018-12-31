@@ -197,19 +197,25 @@ class Utils extends Core
         return copy($inFile, $outFile);
     }
 
-    protected static function setMemoryForImage($file, $factor)
+    protected static function setMemoryForImage($file, $factor = 2)
     {
-        $image = getimagesize($file);
-        $MB = pow(2, 20);
-        $KB = pow(2, 10);
-        $curLimit = ini_get('memory_limit') * $MB;
-        $curUsage = memory_get_usage();
+        $image = @getimagesize($file);
 
-        $needed = round((($image[0] * $image[1] * $image['bits'] * $image['channels'] / 8) + (64 * $KB)) * $factor);
+        $width = $image[0];
+        $height = $image[1];
+        $bits = $image['bits'] ?: 8;
+        $channels = $image['channels'] ?: 3;
+
+        $mb = pow(2, 20);
+        $kb = pow(2, 10);
+        $curLimit = @ini_get('memory_limit') * $mb;
+        $curUsage = @memory_get_usage();
+
+        $needed = round((($width * $height * $bits * $channels / 8) + (64 * $kb)) * $factor);
 
         if (($curUsage + $needed) > $curLimit) {
-            $newLimit = ceil(($curUsage + $needed) / $MB);
-            ini_set('memory_limit', $newLimit . 'M');
+            $newLimit = ceil(($curUsage + $needed) / $mb);
+            @ini_set('memory_limit', $newLimit . 'M');
 
             return $newLimit;
         } else {
@@ -222,7 +228,7 @@ class Utils extends Core
         $inExt = strtolower(array_pop(explode('.', $inFile)));
         $outExt = strtolower(array_pop(explode('.', $outFile)));
 
-        list($imgWidth, $imgHeight) = getimagesize($inFile);
+        list($imgWidth, $imgHeight) = @getimagesize($inFile);
 
         if ($imgWidth > $maxWidth || $imgHeight > $maxHeight) {
             if ($imgWidth >= $imgHeight) {
@@ -248,22 +254,22 @@ class Utils extends Core
         $width = round($width);
         $height = round($height);
 
-        $frame = imagecreatetruecolor($width, $height);
+        $frame = @imagecreatetruecolor($width, $height);
 
         $newMemoryLimit = self::setMemoryForImage($inFile, 2);
 
         if ($inExt == 'gif') {
-            $fileImage = imagecreatefromgif($inFile);
+            $fileImage = @imagecreatefromgif($inFile);
             if (!$fileImage) {
                 return false;
             }
         } elseif ($inExt == 'jpg' || $inExt == 'jpeg') {
-            $fileImage = imagecreatefromjpeg($inFile);
+            $fileImage = @imagecreatefromjpeg($inFile);
             if (!$fileImage) {
                 return false;
             }
         } elseif ($inExt == 'png') {
-            $fileImage = imagecreatefrompng($inFile);
+            $fileImage = @imagecreatefrompng($inFile);
             if (!$fileImage) {
                 return false;
             }
@@ -271,20 +277,20 @@ class Utils extends Core
             return false;
         }
 
-        imagecopyresampled($frame, $fileImage, 0, 0, 0, 0, $width, $height, $imgWidth, $imgHeight);
+        @imagecopyresampled($frame, $fileImage, 0, 0, 0, 0, $width, $height, $imgWidth, $imgHeight);
 
         if ($outExt == 'gif') {
-            imagegif($frame, $outFile);
+            @imagegif($frame, $outFile);
         } elseif ($outExt == 'jpg' || $outExt == 'jpeg') {
-            imagejpeg($frame, $outFile, $quality);
+            @imagejpeg($frame, $outFile, $quality);
         } elseif ($outExt == 'png') {
-            imagepng($frame, $outFile);
+            @imagepng($frame, $outFile);
         } else {
             return false;
         }
 
-        imagedestroy($frame);
-        imagedestroy($fileImage);
+        @imagedestroy($frame);
+        @imagedestroy($fileImage);
 
         return true;
     }
@@ -294,7 +300,7 @@ class Utils extends Core
         $inExt = strtolower(array_pop(explode('.', $inFile)));
         $outExt = strtolower(array_pop(explode('.', $outFile)));
 
-        list($imgWidth, $imgHeight) = getimagesize($inFile);
+        list($imgWidth, $imgHeight) = @getimagesize($inFile);
 
         $width = $imgHeight * ($fixedWidth / $fixedHeight);
         if ($width > $imgWidth) {
@@ -307,22 +313,22 @@ class Utils extends Core
         $width = round($width);
         $height = round($height);
 
-        $frame = imagecreatetruecolor($fixedWidth, $fixedHeight);
+        $frame = @imagecreatetruecolor($fixedWidth, $fixedHeight);
 
         $newMemoryLimit = self::setMemoryForImage($inFile, 2);
 
         if ($inExt == 'gif') {
-            $fileImage = imagecreatefromgif($inFile);
+            $fileImage = @imagecreatefromgif($inFile);
             if (!$fileImage) {
                 return false;
             }
         } elseif ($inExt == 'jpg' || $inExt == 'jpeg') {
-            $fileImage = imagecreatefromjpeg($inFile);
+            $fileImage = @imagecreatefromjpeg($inFile);
             if (!$fileImage) {
                 return false;
             }
         } elseif ($inExt == 'png') {
-            $fileImage = imagecreatefrompng($inFile);
+            $fileImage = @imagecreatefrompng($inFile);
             if (!$fileImage) {
                 return false;
             }
@@ -330,21 +336,21 @@ class Utils extends Core
             return false;
         }
 
-        imagecopy($frame, $fileImage, 0, 0, 0, 0, $width, $height);
-        imagecopyresampled($frame, $fileImage, 0, 0, 0, 0, $fixedWidth, $fixedHeight, $width, $height);
+        @imagecopy($frame, $fileImage, 0, 0, 0, 0, $width, $height);
+        @imagecopyresampled($frame, $fileImage, 0, 0, 0, 0, $fixedWidth, $fixedHeight, $width, $height);
 
         if ($outExt == 'gif') {
-            imagegif($frame, $outFile);
+            @imagegif($frame, $outFile);
         } elseif ($outExt == 'jpg' || $outExt == 'jpeg') {
-            imagejpeg($frame, $outFile, $quality);
+            @imagejpeg($frame, $outFile, $quality);
         } elseif ($outExt == 'png') {
-            imagepng($frame, $outFile);
+            @imagepng($frame, $outFile);
         } else {
             return false;
         }
 
-        imagedestroy($frame);
-        imagedestroy($fileImage);
+        @imagedestroy($frame);
+        @imagedestroy($fileImage);
 
         return true;
     }

@@ -103,12 +103,12 @@ class AdminSections extends ModelAdmin
         'dashboard' => 'Dashboard'
     ];
 
-    public function addAction($data)
+    public function create($data)
     {
         $data['ref'] = Utils::makeLink($data['name']);
-        $data['ord'] = self::getDal()->getLastOrd($data['tab']) + 1;
+        $data['ord'] = (self::getDal()->getLastOrd($data['tab']) ?: 0) + 1;
 
-        $newId = parent::addAction($data);
+        $newId = parent::create($data);
 
         $roles = AdminRoles::all();
         foreach ($roles as $role) {
@@ -129,8 +129,8 @@ class AdminSections extends ModelAdmin
         $values = $this->getUpdateData($values);
 
         if ($values['tab'] != $data['tab']) {
-            $values['ord'] = self::getDal()->getLastOrd($values['tab']) + 1;
-            self::getDal()->moveOrds($data['tab'], -1, $data['ord'] + 1, self::getDal()->getLastOrd($data['tab']) + 1);
+            $values['ord'] = (self::getDal()->getLastOrd($values['tab']) ?: 0) + 1;
+            self::getDal()->moveOrds($data['tab'], -1, $data['ord'] + 1, (self::getDal()->getLastOrd($data['tab']) ?: 0) + 1);
         } else {
             if (intval($values['ord']) < intval($data['ord'])) {
                 self::getDal()->moveOrds($values['tab'], 1, $values['ord'], $data['ord']);
@@ -142,15 +142,19 @@ class AdminSections extends ModelAdmin
         return parent::update($values);
     }
 
-    public function deleteAction()
+    public function delete()
     {
-        $permissions = AdminPermissions::getResultsBy('section_id', $this->id);
+        $data = $this->data;
+
+        parent::delete();
+
+        $permissions = AdminPermissions::getResultsBy('section_id', $data['id']);
         foreach ($permissions as $permission) {
             $item = new AdminPermissions($permission['id']);
             $item->delete();
         }
 
-        parent::deleteAction();
+        self::getDal()->moveOrds($data['tab'], -1, $data['ord'] + 1, (self::getDal()->getLastOrd($data['tab']) ?: 0) + 1);
 
         return true;
     }

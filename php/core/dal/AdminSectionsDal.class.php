@@ -16,8 +16,8 @@ class AdminSectionsDal extends ModelDal
     public function getLastOrd($tab)
     {
         $sql = 'SELECT MAX(t.ord)
-    			FROM ' . $this->getTableSql() . "
-    			WHERE t.tab = '" . $this->sqlEscape($tab) . "'";
+                FROM ' . $this->getTableSql();
+        $sql .= !empty($tab) ? " WHERE t.tab = '" . $this->sqlEscape($tab) . "'" : 'WHERE t.tab IS NULL';
 
         return $this->sqlGetVar($sql);
     }
@@ -26,9 +26,9 @@ class AdminSectionsDal extends ModelDal
     {
         $sql = 'UPDATE ' . $this->getTableSql() . '
                 SET
-                    t.ord = t.ord + (' . $int . ")
-                WHERE t.tab = '" . $this->sqlEscape($tab) . "'
-                    AND t.ord >= " . $from . '
+                    t.ord = t.ord + (' . $int . ")";
+        $sql .= !empty($tab) ? " WHERE t.tab = '" . $this->sqlEscape($tab) . "'" : ' WHERE t.tab IS NULL';
+        $sql .= ' AND t.ord >= ' . $from . '
                     AND t.ord < ' . $to;
 
         return $this->sqlUpdate($sql);

@@ -51,11 +51,7 @@ class Controller extends Core
 
     public function errorAction($e)
     {
-        $this->response->setRobots(false, false);
-
-        $this->response->setParam('message', $this->getErrorMessage($e));
-
-        $this->response->send('message');
+        $this->response->showMessage($this->getErrorMessage($e));
     }
 
     public function getJsonData($json)

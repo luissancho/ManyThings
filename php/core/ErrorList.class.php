@@ -17,8 +17,7 @@ class ErrorList
 
     public function newItem($field, $message)
     {
-        $this->list[] =
-        [
+        $this->list[] = [
             'field' => $field,
             'message' => $message
         ];

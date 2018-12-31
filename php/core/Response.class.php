@@ -370,7 +370,11 @@ class Response extends Core
         $this->setParam('url', $url);
         $this->setParam('ulink', $ulink);
 
-        $this->send('success');
+        if ($this->templateExists('success')) {
+            $this->send('success');
+        } else {
+            $this->send('admin/success');
+        }
 
         return $this;
     }
@@ -385,7 +389,11 @@ class Response extends Core
 
         $this->setParam('message', $message);
 
-        $this->send('message');
+        if ($this->templateExists('message')) {
+            $this->send('message');
+        } else {
+            $this->send('admin/message');
+        }
 
         return $this;
     }
@@ -400,7 +408,11 @@ class Response extends Core
 
         $this->setParam('errors', $errors);
 
-        $this->send('errors');
+        if ($this->templateExists('errors')) {
+            $this->send('errors');
+        } else {
+            $this->send('admin/errors');
+        }
 
         return $this;
     }
