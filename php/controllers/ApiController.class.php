@@ -93,6 +93,11 @@ class ApiController extends Controller
 
     public function dashboardAction($dashboard)
     {
+        ini_set('max_input_time', -1);
+        ini_set('default_socket_timeout', 600);
+        ini_set('memory_limit', '1G');
+        set_time_limit(0);
+
         $data = $this->request->getAll();
 
         $section = AdminSections::getRowBy('ref', $dashboard);

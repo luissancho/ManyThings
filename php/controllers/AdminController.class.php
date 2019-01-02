@@ -378,7 +378,10 @@ class AdminController extends Controller
             return;
         }
 
+        ini_set('max_input_time', -1);
+        ini_set('default_socket_timeout', 600);
         ini_set('memory_limit', '1G');
+        set_time_limit(0);
         $this->response->preventCache();
 
         $this->nav = $nav;
