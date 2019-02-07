@@ -25,10 +25,7 @@
                 {elseif $item.type == 'date'}
                 <input type="text" class="datepicker {if $item.class == 'std'}span3{elseif $item.class == 'short'}span1{elseif $item.class == 'long'}span5{/if}" id="{$item.id}" name="{$item.name}" placeholder="{$item.tip}" value="{$data[$item.name]}" />
                 {elseif $item.type == 'range'}
-                <div class="daterange">
-                    <input type="text" class="{if $item.class == 'std'}span3{elseif $item.class == 'short'}span1{elseif $item.class == 'long'}span5{/if}" id="{$item.id}" name="{$item.name}" placeholder="{$item.tip}" value="{$data[$item.name]}" />
-                    <div rel="{$item.name}"></div>
-                </div>
+                <input type="text" class="daterange {if $item.class == 'std'}span3{elseif $item.class == 'short'}span1{elseif $item.class == 'long'}span5{/if}" id="{$item.id}" name="{$item.name}" placeholder="{$item.tip}" value="{$data[$item.name]}" />
                 {elseif $item.type == 'textarea'}
                 <textarea rows="4" class="{if $item.class == 'std'}span3{elseif $item.class == 'short'}span1{elseif $item.class == 'long'}span5{/if}" id="{$item.id}" name="{$item.name}">{$data[$item.name]}</textarea>
                 {elseif $item.type == 'select'}

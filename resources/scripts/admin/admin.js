@@ -1,15 +1,3 @@
-// DateRange
-$.datepicker._defaults.onAfterUpdate = null;
-var datepicker__updateDatepicker = $.datepicker._updateDatepicker;
-$.datepicker._updateDatepicker = function(inst) {
-    datepicker__updateDatepicker.call(this, inst);
-    var onAfterUpdate = this._get(inst, 'onAfterUpdate');
-    if (onAfterUpdate) {
-        onAfterUpdate.apply((inst.input ? inst.input[0] : null), [(inst.input ? inst.input.val() : ''), inst]);
-    }
-}
-var id = 0, cur = -1, prv = -1;
-
 // Chart
 var chartRels = Array();
 
@@ -17,93 +5,8 @@ $(document).ready(docLoad);
 
 function docLoad()
 {
-    $('.datepicker').datepicker({
-        changeMonth: true,
-        changeYear: true,
-        showButtonPanel: false,
-        yearRange: 'c-80:c+1',
-        dateFormat: 'dd/mm/yy',
-        firstDay: 1,
-        closeText: 'Done',
-        prevText: 'Previous',
-        nextText: 'Next',
-        currentText: 'Today',
-        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        monthNamesShort: ['Jan','Feb','Mar','Apr', 'May','Jun','Jul','Aug','Sep', 'Oct', 'Nov', 'Dec'],
-        dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        dayNamesShort: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
-        dayNamesMin: ['Su','Mo','Tu','We','Th','Fr','Sa']
-    });
-
-    $('.daterange div').datepicker({
-        changeMonth: true,
-        changeYear: true,
-        showButtonPanel: true,
-        yearRange: 'c-80:c+1',
-        dateFormat: 'dd/mm/yy',
-        firstDay: 1,
-        closeText: 'Done',
-        prevText: 'Previous',
-        nextText: 'Next',
-        currentText: 'Today',
-        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        monthNamesShort: ['Jan','Feb','Mar','Apr', 'May','Jun','Jul','Aug','Sep', 'Oct', 'Nov', 'Dec'],
-        dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        dayNamesShort: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
-        dayNamesMin: ['Su','Mo','Tu','We','Th','Fr','Sa'],
-        beforeShowDay: function(date) {
-            return [true, ((date.getTime() >= Math.min(prv, cur) && date.getTime() <= Math.max(prv, cur)) ? 'date-range-selected' : '')];
-        },
-        onSelect: function(dateText, inst) {
-            var d1, d2;
-
-            prv = cur;
-            cur = (new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay)).getTime();
-            if (prv == -1 || prv == cur) {
-                prv = cur;
-                $('.daterange input#' + id).val(dateText);
-            } else {
-                d1 = $.datepicker.formatDate('dd/mm/yy', new Date(Math.min(prv, cur)), {});
-                d2 = $.datepicker.formatDate('dd/mm/yy', new Date(Math.max(prv, cur)), {});
-                $('.daterange input#' + id).val(d1 + ' - ' + d2);
-            }
-        },
-        onChangeMonthYear: function(year, month, inst) {
-            //prv = cur = -1;
-        },
-        onAfterUpdate: function(inst) {
-            $('<button type="button" class="ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all" data-handler="hide" data-event="click">Done</button>')
-                .appendTo($('.daterange div[rel="' + id + '"] .ui-datepicker-buttonpane'))
-                .on('click', function() {
-                    $('.daterange div[rel="' + id + '"]').hide();
-                });
-        }
-    })
-    .hide();
-
-    $('.daterange input').on('focus', function(e) {
-        var v = this.value, d;
-        id = this.id;
-
-        try {
-            if (v.indexOf(' - ') > -1 ) {
-                d = v.split(' - ');
-
-                prv = $.datepicker.parseDate('dd/mm/yy', d[0]).getTime();
-                cur = $.datepicker.parseDate('dd/mm/yy', d[1]).getTime();
-            } else if (v.length > 0) {
-                prv = cur = $.datepicker.parseDate('dd/mm/yy', v).getTime();
-            }
-        } catch (e) {
-            cur = prv = -1;
-        }
-
-        if (cur > -1) {
-            $('.daterange div[rel="' + id + '"]').datepicker('setDate', new Date(cur));
-        }
-
-        $('.daterange div[rel="' + id + '"]').datepicker('refresh').show();
-    });
+    $('.datepicker').mtDatepicker(false);
+    $('.daterange').mtDatepicker(true);
 
     /** Country, State & Town for Venues Form **/
 
@@ -247,7 +150,8 @@ function docLoad()
         checkNotifications();
     }
 
-    $('table#Bills caption').html('Bills (<a href="javascript: toogleValidBills();">Toogle Valid</a>)');
+    $('table#Bills caption').html('Bills (<a href="javascript: toogleValidBills();">Show/Hide Valid</a>)');
+    toogleValidBills();
 
     if (typeof matillionUpdate !== 'undefined') {
         setMatillionTimer();

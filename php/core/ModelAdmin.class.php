@@ -518,6 +518,17 @@ class ModelAdmin extends Model
                     return $prefix . $field . " LIKE '%" . $this->dal->dbEscape($filter->data) . "%'";
                 } elseif ($metaField['wheretype'] == 'begin') {
                     return $prefix . $field . " LIKE '" . $this->dal->dbEscape($filter->data) . "%'";
+                } elseif ($metaField['wheretype'] == 'date') {
+                    if (strpos($filter->data, ' - ') !== false) {
+                        $dateRange = explode(' - ', $filter->data);
+                        $dateFrom = Dates::create($dateRange[0])->setToday();
+                        $dateTo = Dates::create($dateRange[1])->setToday()->move('P1D')->move('-PT1S');
+                    } else {
+                        $dateFrom = Dates::create($filter->data)->setToday();
+                        $dateTo = Dates::create($filter->data)->setToday()->move('P1D')->move('-PT1S');
+                    }
+
+                    return $prefix . $field . " BETWEEN '" . $dateFrom->formatSql() . "' AND '" . $dateTo->formatSql() . "'";
                 } elseif ($filter->data == CoreDal::OP_TRUE) {
                     return $prefix . $field . ' IS TRUE';
                 } elseif ($filter->data == CoreDal::OP_FALSE) {
@@ -544,6 +555,22 @@ class ModelAdmin extends Model
                         $field => [
                             '$regex' => '^' . $this->dal->dbEscape($filter->data),
                             '$options' => 'i'
+                        ]
+                    ];
+                } elseif ($metaField['wheretype'] == 'date') {
+                    if (strpos($filter->data, ' - ') !== false) {
+                        $dateRange = explode(' - ', $filter->data);
+                        $dateFrom = Dates::create($dateRange[0])->setToday();
+                        $dateTo = Dates::create($dateRange[1])->setToday()->move('P1D')->move('-PT1S');
+                    } else {
+                        $dateFrom = Dates::create($filter->data)->setToday();
+                        $dateTo = Dates::create($filter->data)->setToday()->move('P1D')->move('-PT1S');
+                    }
+
+                    return [
+                        $field => [
+                            '$gte' => $dateFrom->formatZulu(),
+                            '$lte' => $dateTo->formatZulu()
                         ]
                     ];
                 } elseif ($filter->data == CoreDal::OP_TRUE) {

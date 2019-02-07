@@ -14,7 +14,8 @@ function initJqGrid()
             search: val.search,
             stype: val.stype,
             searchoptions: {
-                value: val.searchoptions
+                value: val.searchoptions,
+                dataInit: val.wheretype == 'date' ? dateFilter : undefined
             },
             formatter: val.formatter,
             formatoptions: {
@@ -25,7 +26,7 @@ function initJqGrid()
     });
 
     var rowNum = 20;
-    var rowList = (level > 2) ? [10,20,30,50] : [10,20];
+    var rowList = (level > 2) ? [10, 20, 30, 50] : [10, 20];
 
     jQuery.extend($.fn.fmatter, {
         date: function(cellValue, options, rowData) {
@@ -146,4 +147,12 @@ function initJqGrid()
             });
         });
     }
+}
+
+function dateFilter(el)
+{
+    $(el).mtDatepicker(true, function() {
+        $(el).trigger(jQuery.Event('keydown', {which: 50}));
+    });
+    $('#ui-datepicker-div').hide();
 }

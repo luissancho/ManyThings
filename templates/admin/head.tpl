@@ -23,6 +23,7 @@
     <!-- JQuery UI -->
     <link rel="stylesheet" type="text/css" media="screen" href="{$path}/resources/lib/jquery-ui/css/smoothness/jquery-ui.css" />
     <script type="text/javascript" src="{$path}/resources/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{$path}/resources/scripts/admin/mt-datepicker.js"></script>
 
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" media="screen" href="{$path}/resources/lib/bootstrap/css/bootstrap.min.css" />
@@ -58,7 +59,7 @@
     {/if}
 
     <link type="text/css" rel="stylesheet" media="screen" href="{$path}/resources/styles/admin/admin.css" />
-    <script type="text/javascript" src="{$path}/resources/js/admin.js"></script>
+    <script type="text/javascript" src="{$path}/resources/scripts/admin/admin.js"></script>
 
     <link rel="shortcut icon" href="{$path}/resources/img/favicon-16x16.png" />
 
