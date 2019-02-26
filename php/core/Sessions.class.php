@@ -24,8 +24,7 @@ class Sessions extends Model
     // Session Data
     public $info = [];
 
-    public static $bots =
-    [
+    public static $bots = [
         'Google Bot' => 'googlebot',
         'Google Bot' => 'google',
         'MSN' => 'msnbot',
@@ -75,7 +74,7 @@ class Sessions extends Model
                     // Gate 1: Cookie(yes) - Session(yes) - User(yes)
                     $this->sessionGate1();
                 } else {
-                    // Gate 2: Cookie(yes) - Session(no) - User(no)
+                    // Gate 2: Cookie(yes) - Session(yes) - User(no)
                     $this->sessionGate2();
                 }
             } else {
@@ -90,7 +89,7 @@ class Sessions extends Model
                 }
             }
         } elseif ($persist) {
-            // Gate 5: Cookie(no) - Session(no) - Autologin(no)
+            // Gate 5: Cookie(no)
             $id = self::createSid();
             $this->sessionGate5($id);
         }
@@ -131,8 +130,7 @@ class Sessions extends Model
             unset($this->info[$key]);
         }
 
-        $this->update(
-        [
+        $this->update([
             'data' => json_encode($this->info)
         ]);
     }
@@ -202,15 +200,13 @@ class Sessions extends Model
     {
         $this->gate = 1;
 
-        $this->update(
-        [
+        $this->update([
             'url' => $this->requestUrl
         ]);
 
         $user = new Users($this->data['user_id']);
 
-        $user->update(
-        [
+        $user->update([
             'time_last' => Dates::sqlNow(),
             'ip_last' => $this->userIp
         ]);
@@ -224,14 +220,13 @@ class Sessions extends Model
     }
 
     /*
-    Gate 2: Cookie(yes) - Session(no) - User(no)
+    Gate 2: Cookie(yes) - Session(yes) - User(no)
     */
     public function sessionGate2()
     {
         $this->gate = 2;
 
-        $this->update(
-        [
+        $this->update([
             'url' => $this->requestUrl
         ]);
 
@@ -245,8 +240,7 @@ class Sessions extends Model
     {
         $this->gate = 3;
 
-        $this->create(
-        [
+        $this->create([
             'id' => $id,
             'user_id' => $userId,
             'ip' => $this->userIp,
@@ -255,8 +249,7 @@ class Sessions extends Model
 
         $user = new Users($userId);
 
-        $user->update(
-        [
+        $user->update([
             'time_last' => Dates::sqlNow(),
             'ip_last' => $this->userIp
         ]);
@@ -274,8 +267,7 @@ class Sessions extends Model
     {
         $this->gate = 4;
 
-        $this->create(
-        [
+        $this->create([
             'id' => $id,
             'user_id' => null,
             'ip' => $this->userIp,
@@ -290,8 +282,7 @@ class Sessions extends Model
     {
         $this->gate = 5;
 
-        $this->create(
-        [
+        $this->create([
             'id' => $id,
             'user_id' => null,
             'ip' => $this->userIp,
@@ -330,8 +321,7 @@ class Sessions extends Model
 
     public function doLogin($userId, $autologin = false)
     {
-        $this->update(
-        [
+        $this->update([
             'user_id' => $userId
         ]);
 
@@ -342,8 +332,7 @@ class Sessions extends Model
                 $auto->delete();
             }
 
-            $auto->create(
-            [
+            $auto->create([
                 'id' => $this->id,
                 'user_id' => $userId,
                 'ip' => $this->userIp
@@ -355,8 +344,7 @@ class Sessions extends Model
 
     public function logout()
     {
-        $this->update(
-        [
+        $this->update([
             'user_id' => null
         ]);
 

@@ -121,6 +121,10 @@ class Model extends Core
 
         $this->id = $this->dal->create($values);
 
+        if (empty($this->id) && array_key_exists('id', $values)) {
+            $this->id = $values['id'];
+        }
+
         $this->data = static::get($this->id);
         $this->active = $this->isActive();
 
