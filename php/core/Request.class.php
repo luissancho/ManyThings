@@ -198,6 +198,19 @@ class Request extends Core
         ];
     }
 
+    public function getUrl()
+    {
+        $url = $this->domPath . '/';
+        if ($this->relUri) {
+            $url .= $this->relUri . '/';
+        }
+        if ($this->queryString) {
+            $url .= '?' . $this->queryString;
+        }
+
+        return $url;
+    }
+
     public function getReferer()
     {
         $referer = $this->getServer('HTTP_REFERER');
