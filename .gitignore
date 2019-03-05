@@ -1,0 +1,8 @@
+/node_modules/
+/vendor/
+/log/
+/files/
+/templates/smarty/
+/resources/build/
+/config.json
+.DS_Store
