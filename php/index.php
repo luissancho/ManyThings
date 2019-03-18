@@ -32,7 +32,7 @@ try {
     /***** Handle controller and display template *****/
     $di->router->handle()->dispatch();
 } catch (\Throwable $e) {
-    if ($di->router->loaded()) {
+    if ($di->router && $di->router->loaded()) {
         $di->router->dispatchError($e);
     } elseif ($e instanceof AppException) {
         echo $e->getMessage();

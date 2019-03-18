@@ -112,9 +112,14 @@ class Dates extends DateTime
         return false;
     }
 
-    public function formatSql()
+    public function formatSql($hms = true)
     {
-        return $this->format('Y-m-d H:i:s');
+        $format = 'Y-m-d';
+        if ($hms) {
+            $format .= ' H:i:s';
+        }
+
+        return $this->format($format);
     }
 
     public function formatIso()
@@ -201,9 +206,9 @@ class Dates extends DateTime
         return self::today()->formatSql();
     }
 
-    public static function sqlDate($time = null)
+    public static function sqlDate($time = null, $hms = false)
     {
-        return self::create($time)->formatSql();
+        return self::create($time)->formatSql($hms);
     }
 
     public static function stringNow()
