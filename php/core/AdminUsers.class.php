@@ -88,7 +88,7 @@ class AdminUsers extends ModelAdmin
     public function create($values)
     {
         $user = new Users();
-        $values['user_id'] = $user->create([
+        $userId = $user->create([
             'email' => $values['Users__email'],
             'username' => $values['Users__username'],
             'password' => $values['Users__password_add'],
@@ -97,12 +97,13 @@ class AdminUsers extends ModelAdmin
         ]);
 
         parent::create([
-            'user_id' => $values['user_id'],
+            'id' => $userId,
+            'user_id' => $userId,
             'role_id' => $values['role_id'],
             'level' => $values['role_id'] == 1 || $values['role_id'] == 2 ? 3 : 2
         ]);
 
-        return $values['user_id'];
+        return $userId;
     }
 
     public function update($values)

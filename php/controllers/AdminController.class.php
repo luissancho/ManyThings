@@ -20,6 +20,7 @@ class AdminController extends Controller
         'controller' => [],
         'dashboard' => []
     ];
+    protected $ip;
     protected $timezone;
 
     protected $modelTypes = ['model', 'admin'];
@@ -402,6 +403,7 @@ class AdminController extends Controller
 
         $this->di->session->section = $this->section;
 
+        $this->ip = $this->di->session->userIp;
         $this->timezone = $this->di->config->date->timezone;
         if ($this->di->session->user && $this->di->session->user['timezone']) {
             $this->timezone = $this->di->session->user['timezone'];
@@ -413,6 +415,7 @@ class AdminController extends Controller
         $this->response->setParam('section', $this->section);
         $this->response->setParam('sections', $this->sections);
         $this->response->setParam('timezone', $this->timezone);
+        $this->response->setParam('ip', $this->ip);
 
         return $this;
     }

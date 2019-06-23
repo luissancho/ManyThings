@@ -107,6 +107,6 @@
 
 {if $timezone}
 <div class="pull-right" style="margin: 5px 10px 0 0;">
-    <strong>Timezone:</strong> {$timezone}
+    <strong>IP:</strong> {$ip}<br /><strong>Timezone:</strong> {$timezone}
 </div>
 {/if}

@@ -135,26 +135,36 @@ class Utils extends Core
         return $bytes;
     }
 
-    public static function jsonToText($json)
+    public static function jsonToText($value, $html = true)
     {
-        $array = json_decode($json, true);
-        $text = self::arrayToText($array);
+        if (!is_array($value)) {
+            $value = json_decode($value, true);
+        }
+        
+        $value = json_encode($value, JSON_PRETTY_PRINT);
 
-        return $text;
+        if ($html) {
+            $value = str_replace(PHP_EOL, '<br />', $value);
+            $value = str_replace('  ', '&nbsp;&nbsp;', $value);
+            $value = str_replace('"', '&quot;', $value);
+        }
+
+        return $value;
     }
 
-    public static function arrayToText($array, $prefix = '', $html = true)
+    public static function arrayToText($array, $prefix = '', $html = true, $keys = null)
     {
         $eol = ($html) ? '<br />' : PHP_EOL;
         $tab = ($html) ? '&nbsp;&nbsp;&nbsp;&nbsp;' : '    ';
         $text = '';
 
         foreach ($array as $key => $val) {
+            $bullet = $keys ? $keys : '[' . $key . ']';
             if (is_array($val)) {
-                $text .= $prefix . '[' . $key . ']' . $eol;
-                $text .= self::arrayToText($val, $prefix . $tab);
+                $text .= $prefix . $bullet . $eol;
+                $text .= self::arrayToText($val, $prefix . $tab, $html, $keys);
             } else {
-                $text .= $prefix . '[' . $key . '] ' . $val . $eol;
+                $text .= $prefix . $bullet . ' ' . $val . $eol;
             }
         }
 
