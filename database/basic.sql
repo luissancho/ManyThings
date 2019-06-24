@@ -55,7 +55,7 @@ ALTER TABLE `admin_roles`
 
 CREATE TABLE `admin_sections` (
   `id` tinyint(3) UNSIGNED NOT NULL,
-  `type` enum('admin','model','controller','dashboard') NOT NULL DEFAULT 'tab',
+  `type` enum('tab', 'admin','model','controller','dashboard') NOT NULL DEFAULT 'tab',
   `ref` varchar(30) NOT NULL DEFAULT '',
   `class` varchar(30) NOT NULL DEFAULT '',
   `name` varchar(30) NOT NULL DEFAULT '',
