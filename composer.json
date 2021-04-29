@@ -11,7 +11,7 @@
         "monolog/monolog": "1.21.*",
         "firebase/php-jwt": "^4.0",
         "psy/psysh": "^0.7.2",
-        "rmccue/requests": "1.6.1",
+        "rmccue/requests": "1.8.0",
         "mobiledetect/mobiledetectlib": "^2.8"
     }
 }
