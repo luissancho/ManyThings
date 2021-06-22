@@ -7,7 +7,7 @@
         "league/flysystem-aws-s3-v2": "1.0.1",
         "chrisboulton/php-resque": "1.2.*",
         "chrisboulton/php-resque-scheduler": "1.1.*",
-        "phpmailer/phpmailer": "~5.2",
+        "phpmailer/phpmailer": "~6.5",
         "monolog/monolog": "1.21.*",
         "firebase/php-jwt": "^4.0",
         "psy/psysh": "^0.7.2",
