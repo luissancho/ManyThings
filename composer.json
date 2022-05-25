@@ -1,7 +1,7 @@
 {
     "require":
     {
-        "smarty/smarty": "3.1.15",
+        "smarty/smarty": "3.1.45",
         "jv2222/ezsql": "2.1.7",
         "aws/aws-sdk-php": "2.*",
         "league/flysystem-aws-s3-v2": "1.0.1",
